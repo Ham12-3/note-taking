@@ -1,0 +1,135 @@
+@import "tailwindcss";
+
+/*
+ * Palette tokens. Change these to re-theme the whole page.
+ * Each becomes a Tailwind color, e.g. bg-periwinkle, text-ink-muted.
+ */
+:root {
+  --canvas: #f6f6fa;
+  --surface: #ffffff;
+  --ink: #16161d;
+  --ink-muted: #6b6b7b;
+  --ink-subtle: #8a8a9c;
+  --line: #e7e7ef;
+
+  --periwinkle: #8c9bf2;
+  --lavender: #b9a8f5;
+  --sky: #a9c6ff;
+  --blush: #f5b6d6;
+  --magenta: #e062b4;
+  --peach: #ffc9a8;
+  --accent: #4f5bd5;
+
+  --chip-green: #1f9d63;
+  --chip-pink: #d9468f;
+  --chip-orange: #e07a16;
+  --chip-blue: #3b6fe0;
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-subtle: var(--ink-subtle);
+  --color-line: var(--line);
+
+  --color-periwinkle: var(--periwinkle);
+  --color-lavender: var(--lavender);
+  --color-sky: var(--sky);
+  --color-blush: var(--blush);
+  --color-magenta: var(--magenta);
+  --color-peach: var(--peach);
+  --color-accent: var(--accent);
+
+  --color-chip-green: var(--chip-green);
+  --color-chip-pink: var(--chip-pink);
+  --color-chip-orange: var(--chip-orange);
+  --color-chip-blue: var(--chip-blue);
+
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+
+  --radius-shell: 1.75rem;
+
+  --shadow-glass: 0 1px 0 0 rgb(255 255 255 / 0.6) inset,
+    0 20px 50px -20px rgb(60 60 110 / 0.25), 0 4px 14px -6px rgb(60 60 110 / 0.12);
+  --shadow-soft: 0 30px 80px -30px rgb(70 70 130 / 0.3);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+body {
+  background: var(--canvas);
+  color: var(--ink);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--lavender) 45%, transparent);
+}
+
+@layer components {
+  /* Frosted glass card */
+  .glass {
+    background: rgb(255 255 255 / 0.72);
+    border: 1px solid rgb(255 255 255 / 0.8);
+    box-shadow: var(--shadow-glass);
+    backdrop-filter: blur(18px) saturate(140%);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+  }
+
+  /* Lighter glass for use on top of the dreamy gradients */
+  .glass-tint {
+    background: rgb(255 255 255 / 0.16);
+    border: 1px solid rgb(255 255 255 / 0.45);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+  }
+
+  /* Halftone dot overlay, fades out towards the center */
+  .halftone {
+    background-image: radial-gradient(rgb(255 255 255 / 0.5) 0.9px, transparent 1.2px);
+    background-size: 6px 6px;
+    mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 35%, black 100%);
+    -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, transparent 35%, black 100%);
+  }
+
+  /* Fine film grain via inline SVG noise */
+  .grain {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: 0.35;
+  }
+}
+
+/* Hero entrance. CSS-only so the content paints before JavaScript loads. */
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.rise {
+  animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

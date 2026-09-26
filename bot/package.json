@@ -1,0 +1,22 @@
+{
+  "name": "notewell-bot",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Local Google Meet notetaker bot for testing. Joins as a guest and records live captions.",
+  "type": "module",
+  "scripts": {
+    "join": "tsx src/index.ts",
+    "summarize": "tsx src/summarize-cli.ts",
+    "test": "tsx test/captions.test.ts && tsx test/summarize.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "openai": "^7.23.0",
+    "playwright": "^1.63.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.3",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  }
+}
